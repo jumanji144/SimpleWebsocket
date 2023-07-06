@@ -15,7 +15,7 @@ std::map<net::SocketHandle, std::vector<frame>> frameBuffer;
 std::map<net::SocketHandle, std::function<void()>> pingCallbacks;
 
 void server::listen() {
-    while(this->isListening()) {
+    while(this->isActive()) {
         wolv::net::SocketServer::accept([this](net::SocketHandle socket, std::vector<u8> data) {
             return this->read(socket, std::move(data));
         }, [this](net::SocketHandle socket) {
