@@ -76,9 +76,8 @@ namespace websock::http {
 
         /**
          * @brief Begin listening for connections
-         * @param blocking Whether to block the current thread
          */
-        void listen(bool blocking = true);
+        void listen();
 
         inline bool isBound() {
             return wolv::net::SocketServer::isListening();
@@ -109,7 +108,7 @@ namespace websock::http {
         std::function<void(const client&)> m_onClose;
         std::function<void(const client&)> m_onOpen;
 
-        std::thread m_listenThread;
+        std::thread m_listenThread{};
     };
 
 }

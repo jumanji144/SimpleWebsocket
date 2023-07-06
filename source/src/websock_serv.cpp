@@ -18,21 +18,14 @@ server::server(int port, int numClients, bool localOnly) : wolv::net::SocketServ
 std::map<net::SocketHandle, std::vector<frame>> frameBuffer;
 std::map<net::SocketHandle, std::function<void()>> pingCallbacks;
 
-void server::listen(bool async) {
-    auto lambda = [this]() {
-        wolv::net::SocketServer::accept([this](net::SocketHandle socket, std::vector<u8> data) {
-            return this->read(socket, std::move(data));
-        }, [this](net::SocketHandle socket) {
-            auto& c = this->m_clients[socket];
-            if(this->m_onClose) this->m_onClose(c);
-            this->m_clients.erase(socket);
-        }, true);
-    };
-    if(async) {
-        m_listenThread = std::thread(lambda);
-    } else {
-        lambda();
-    }
+void server::listen() {
+    wolv::net::SocketServer::accept([this](net::SocketHandle socket, std::vector<u8> data) {
+        return this->read(socket, std::move(data));
+    }, [this](net::SocketHandle socket) {
+        auto& c = this->m_clients[socket];
+        if(this->m_onClose) this->m_onClose(c);
+        this->m_clients.erase(socket);
+    }, true);
 }
 
 frame prepareCloseFrame(const std::string& reason) {
