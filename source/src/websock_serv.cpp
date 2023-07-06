@@ -61,7 +61,7 @@ std::vector<u8> server::read(net::SocketHandle socket, std::vector<u8> data) {
                 "HTTP/1.1 101 Switching Protocols\r\n"
                 "Upgrade: websocket\r\n"
                 "Connection: Upgrade\r\n"
-                "Sec-WebSocket-Accept: )") + base64 + "\r\n\r\n";
+                "Sec-WebSocket-Accept: ") + base64 + "\r\n\r\n";
         if(this->m_onOpen) this->m_onOpen(c);
         c.m_initialized = true;
         return util::datarize(response);
