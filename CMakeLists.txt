@@ -11,20 +11,12 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(libwolv)
 
-# libfmt
-FetchContent_Declare(
-        fmt
-        GIT_REPOSITORY https://github.com/fmtlib/fmt
-        GIT_TAG master
-)
-FetchContent_MakeAvailable(fmt)
-
 add_library(Simple STATIC
         source/src/websock_serv.cpp
         source/src/websock_frame.cpp)
 
 target_include_directories(Simple PUBLIC source/include)
-target_link_libraries(Simple PUBLIC libwolv-net libwolv-utils libwolv-hash fmt::fmt)
+target_link_libraries(Simple PUBLIC libwolv-net libwolv-utils libwolv-hash)
 
 # tests
 add_executable(SimpleTest
