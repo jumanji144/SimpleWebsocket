@@ -31,9 +31,7 @@ int main() {
     }
 
     std::thread t([&serv]() {
-        while (true) {
-            serv.listen();
-        }
+        serv.listen();
     });
 
     while (true) {
