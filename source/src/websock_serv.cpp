@@ -1,11 +1,7 @@
 #include <websock_serv.hpp>
-#include "util/hex_view.hpp"
 #include <websock_frame.h>
 #include "util/util.hpp"
 
-#include <wolv/utils/string.hpp>
-
-#include <iostream>
 #include <utility>
 
 using namespace websock::http;
@@ -59,11 +55,11 @@ std::vector<u8> server::read(net::SocketHandle socket, std::vector<u8> data) {
         sha1.update(newKey);
         auto hash = sha1.final_bytes();
         auto base64 = base64::encode({begin(hash), end(hash)});
-        std::string response = fmt::format(
+        std::string response = std::string(
                 "HTTP/1.1 101 Switching Protocols\r\n"
                 "Upgrade: websocket\r\n"
                 "Connection: Upgrade\r\n"
-                "Sec-WebSocket-Accept: {}\r\n\r\n", base64);
+                "Sec-WebSocket-Accept: )") + base64 + "\r\n\r\n";
         if(this->m_onOpen) this->m_onOpen(c);
         c.m_initialized = true;
         return util::datarize(response);
