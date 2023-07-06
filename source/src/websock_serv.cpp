@@ -15,13 +15,15 @@ std::map<net::SocketHandle, std::vector<frame>> frameBuffer;
 std::map<net::SocketHandle, std::function<void()>> pingCallbacks;
 
 void server::listen() {
-    wolv::net::SocketServer::accept([this](net::SocketHandle socket, std::vector<u8> data) {
-        return this->read(socket, std::move(data));
-    }, [this](net::SocketHandle socket) {
-        auto& c = this->m_clients[socket];
-        if(this->m_onClose) this->m_onClose(c);
-        this->m_clients.erase(socket);
-    }, true);
+    while(this->isListening()) {
+        wolv::net::SocketServer::accept([this](net::SocketHandle socket, std::vector<u8> data) {
+            return this->read(socket, std::move(data));
+        }, [this](net::SocketHandle socket) {
+            auto &c = this->m_clients[socket];
+            if (this->m_onClose) this->m_onClose(c);
+            this->m_clients.erase(socket);
+        }, true);
+    }
 }
 
 frame prepareCloseFrame(const std::string& reason) {
