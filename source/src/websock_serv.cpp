@@ -142,5 +142,5 @@ void server::client::disconnect(const std::string &reason) {
     frame f = prepareCloseFrame(reason);
     auto encoded = encodeFrame(f);
     this->m_parent->send(this->m_socket, encoded);
-    this->m_parent->close(this->m_socket);
+    wolv::net::closeSocket(this->m_socket);
 }
