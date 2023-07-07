@@ -11,7 +11,7 @@ Simple websocket server for c++20, mostly intended for local use.
 int main() {
     
     // Create a local only server running on port 8080 with 5 possible connections
-    websock::server server(8080, true, 5);
+    websock::http::server server(8080, true, 5);
     
     if(server.getError().has_value()) {
         std::cout << "Error: " << server.getError().value() << std::endl;
