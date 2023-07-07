@@ -25,7 +25,7 @@ int main() {
     });
     
     // Set the on_connect callback
-    server.setOnConnect([](auto client) {
+    server.setOnOpen([](auto client) {
         std::cout << "Client connected" << std::endl;
     });
     

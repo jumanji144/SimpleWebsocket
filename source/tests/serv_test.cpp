@@ -1,5 +1,4 @@
 #include <websock_serv.hpp>
-#include <wolv/net/socket_client.hpp>
 #include <iostream>
 #include <cstring>
 
